@@ -1,33 +1,37 @@
-🚚 Supply Chain Management Optimization Using AI
-This project focuses on streamlining supply chain operations using artificial intelligence, predictive analytics, and real-time tracking. By analyzing demand, inventory, logistics, and supplier performance, the system helps businesses minimize delays, reduce costs, and improve overall efficiency.
 
-📌 Features
-📦 Demand forecasting using historical sales and seasonal trends
-🚛 Real-time shipment and inventory tracking
-⏱️ Predictive analytics for delivery time and route optimization
-📊 Performance dashboards for suppliers, warehouses, and logistics
-🔁 Dynamic stock replenishment and order management
-📉 Cost reduction and risk mitigation through data insights
 
-🔧 Technologies Used
-Python
-Pandas / NumPy / Scikit-learn / XGBoost (for analytics and ML)
-TensorFlow / Prophet (for forecasting)
-SQL / MongoDB (for data storage)
-Power BI / Tableau / Streamlit (for dashboards and visualization)
-APIs: Google Maps API, ERP connectors, IoT device data
-Flask / FastAPI (for integration and microservices)
+# Import necessary libraries
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+import random
 
-📦 How It Works
+# Simulated historical sales data
+data = {
+    'month': list(range(1, 13)),
+    'sales': [random.randint(80, 120) for _ in range(12)]
+}
+df = pd.DataFrame(data)
 
-Data Collection: Ingest data from sales, inventory, transportation, and supplier systems.
+# Prepare data for ML model
+X = df[['month']]
+y = df['sales']
+model = LinearRegression()
+model.fit(X, y)
 
-Forecast Demand: Use ML models to predict future product demand based on trends and events.
+# Predict next 3 months
+future_months = pd.DataFrame({'month': [13, 14, 15]})
+predicted_sales = model.predict(future_months)
 
-Optimize Logistics: Calculate best delivery routes, predict delays, and suggest alternatives.
+# Output predictions
+for month, sale in zip(future_months['month'], predicted_sales):
+    print(f"Predicted sales for month {month}: {int(sale)} units")
 
-Inventory Management: Monitor stock levels in real-time and automate replenishment triggers.
-
-Monitor Performance: Track KPIs (delivery time, cost, returns) via dashboards for continuous improvement.
-
-Decision Support: Provide actionable insights for procurement, warehousing, and distribution teams.
+# Plotting the data
+plt.plot(df['month'], df['sales'], label='Historical Sales')
+plt.plot(future_months['month'], predicted_sales, label='Predicted Sales', linestyle='--')
+plt.xlabel("Month")
+plt.ylabel("Sales")
+plt.title("Sales Forecasting")
+plt.legend()
+plt.show()
